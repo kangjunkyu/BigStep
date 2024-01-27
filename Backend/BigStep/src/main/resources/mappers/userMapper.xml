@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.bigstep.model.dao.UserDao">
+
+	<insert id="insertUser" parameterType="User" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO users (id, pw, name, nickname, email, phone, address, height, weight, age, gender, isPublic)
+		VALUE (#{id}, #{pw}, #{name}, #{nickname}, #{email}, #{phone}, #{address}, #{height}, #{weight}, #{age}, #{gender}, #{isPublic})
+	</insert>
+
+	<delete id="deleteUser" parameterType="String">				
+		DELETE FROM users WHERE id = #{id};
+	</delete>
+
+	<update id="updateUser" parameterType="User">
+		UPDATE users 
+		SET pw = #{pw}, nickname = #{nickname}, phone = #{phone}, address = #{address}, uid = #{UID},
+		height = #{height}, weight = #{weight}, age = #{age}, gender = #{gender}, isPublic = #{isPublic}
+		WHERE id = #{id}
+	</update>
+
+	<select id="selectUsers" resultType="User">
+		SELECT * from users
+	</select>
+
+	<select id="selectUser" parameterType="String" resultType="User">
+		SELECT * FROM users 
+		WHERE id = #{id}
+	</select>
+	
+	<select id="searchUsers" parameterType="String" resultType="User">
+		SELECT * FROM users
+		WHERE id LIKE CONCAT('%', #{word},'%') OR
+		name LIKE CONCAT('%', #{word},'%') OR
+		nickname LIKE CONCAT('%', #{word},'%') OR
+		email LIKE CONCAT('%', #{word},'%')
+	</select>
+	
+	<select id="searchByUID" parameterType="String" resultType="User">
+		SELECT * FROM users
+		WHERE uid = #{UID}
+	</select>
+
+</mapper>
